@@ -1,1 +1,6 @@
 #include <stdio.h>
+int main()
+{
+printf("我不想打代码啦！\n");
+return 0;
+}

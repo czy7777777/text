@@ -1,0 +1,41 @@
+#include <stdio.h>
+#define MAX 100
+
+int main()
+{
+    char s[MAX];
+    int n, k;
+    scanf("%d %d", &n, &k);//n为第n大的数；k为k位数；
+    int i, j;
+    int visit[MAX] = {0};
+    int p[MAX] = {0};
+    p[0] = 1;
+    for(i = 1; i <MAX ; i++ ) {
+       p[i] = p[i-1] * i;
+    }
+ 
+    n --;
+    for(i = 0; i < k; i ++) 
+	{
+        int t = n / p[k-i-1];
+        for(j = 0; j < k; j++)
+		{
+            if( !visit[j] )
+			{
+                printf("%d:%d\n", j, t);
+                if(t == 0)
+				{
+                    break;
+                }
+                t--;
+            }
+        }
+        visit[j] = 1;//相当于已经用了j+1这个数
+        s[i] = '0' + j + 1;
+        printf("%c\n", s[i]);
+        n %= p[k-i-1];
+    } 
+    s[i+1] = '\0';
+    printf("%s", s);
+    return 0;
+ } 

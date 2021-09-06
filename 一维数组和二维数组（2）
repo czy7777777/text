@@ -1,0 +1,442 @@
+给你一个正整数数组 arr ，请你计算所有可能的奇数长度子数组的和。
+
+子数组 定义为原数组中的一个连续子序列。
+
+请你返回 arr 中 所有奇数长度子数组的和 。
+
+ 
+
+示例 1：
+
+输入：arr = [1,4,2,5,3]
+输出：58
+解释：所有奇数长度子数组和它们的和为：
+[1] = 1
+[4] = 4
+[2] = 2
+[5] = 5
+[3] = 3
+[1,4,2] = 7
+[4,2,5] = 11
+[2,5,3] = 10
+[1,4,2,5,3] = 15
+我们将所有值求和得到 1 + 4 + 2 + 5 + 3 + 7 + 11 + 10 + 15 = 58
+示例 2：
+
+输入：arr = [1,2]
+输出：3
+解释：总共只有 2 个长度为奇数的子数组，[1] 和 [2]。它们的和为 3 。
+示例 3：
+
+输入：arr = [10,11,12]
+输出：66
+
+来源：力扣（LeetCode）
+链接：https://leetcode-cn.com/problems/sum-of-all-odd-length-subarrays
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+int sumOddLengthSubarrays(int* arr, int arrSize){
+    int sum = 0;
+    int i, j, k;
+    for(i = 1; i <= arrSize; i+=2){
+        for(k = 0; k <= arrSize-i; k++){
+            for(j = k; j < k+i; j++){
+                sum += arr[j];
+            }
+        }
+    }
+    return sum;
+}
+
+给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target  的那 两个 整数，并返回它们的数组下标。
+
+你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。
+
+你可以按任意顺序返回答案。
+
+ 
+
+示例 1：
+
+输入：nums = [2,7,11,15], target = 9
+输出：[0,1]
+解释：因为 nums[0] + nums[1] == 9 ，返回 [0, 1] 。
+示例 2：
+
+输入：nums = [3,2,4], target = 6
+输出：[1,2]
+示例 3：
+
+输入：nums = [3,3], target = 6
+输出：[0,1]
+ 
+
+来源：力扣（LeetCode）
+链接：https://leetcode-cn.com/problems/two-sum
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+int* twoSum(int* nums, int numsSize, int target, int* returnSize){
+    for(int i=0; i < numsSize; i++){
+        for(int j=i+1; j < numsSize; j++){
+            if(nums[i] + nums[j] == target){
+                int* ret = malloc(sizeof(int)*2);
+                ret[0] = i;
+                ret[1] = j;
+                * returnSize = 2;
+                return ret;
+            }
+        }
+    }
+    * returnSize = 0;
+    return NULL;
+}
+
+给定一个非负整数 numRows，生成「杨辉三角」的前 numRows 行。
+
+在「杨辉三角」中，每个数是它左上方和右上方的数的和。
+
+
+
+ 
+
+示例 1:
+
+输入: numRows = 5
+输出: [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]]
+示例 2:
+
+输入: numRows = 1
+输出: [[1]]
+
+来源：力扣（LeetCode）
+链接：https://leetcode-cn.com/problems/pascals-triangle
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+int** generate(int numRows, int* returnSize, int** returnColumnSizes){
+    int** ret = malloc(sizeof(int*) * numRows);
+    *returnSize = numRows;
+    *returnColumnSizes = malloc(sizeof(int) * numRows);
+    for(int i = 0; i < numRows; i++){
+        ret[i] = malloc(sizeof(int)*(i + 1));
+        (*returnColumnSizes)[i] = i + 1;
+        ret[i][0] = ret[i][i] = 1;
+        for(int j = 1; j < i; j++){
+            ret[i][j] = ret[i - 1][j] + ret[i - 1][j - 1];
+        }
+    }
+    return ret;
+}
+
+给定一个非负索引 rowIndex，返回「杨辉三角」的第 rowIndex 行。
+
+在「杨辉三角」中，每个数是它左上方和右上方的数的和。
+
+
+
+ 
+
+示例 1:
+
+输入: rowIndex = 3
+输出: [1,3,3,1]
+示例 2:
+
+输入: rowIndex = 0
+输出: [1]
+示例 3:
+
+输入: rowIndex = 1
+输出: [1,1]
+
+来源：力扣（LeetCode）
+链接：https://leetcode-cn.com/problems/pascals-triangle-ii
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+int* getRow(int rowIndex, int* returnSize){
+    * returnSize = rowIndex + 1;
+    int* ret[rowIndex + 1];
+    for(int i=0; i<=rowIndex; i++){
+        ret[i] = malloc(sizeof(int) * (i + 1));
+        ret[i][0] = ret[i][i] = 1;
+        for(int j=1; j<i; j++){
+            ret[i][j] = ret[i-1][j] + ret[i-1][j-1];
+        }
+    }
+    return ret[rowIndex];
+}
+
+给你一个 m 行 n 列的矩阵 matrix ，请按照 顺时针螺旋顺序 ，返回矩阵中的所有元素。
+
+ 
+
+示例 1：
+
+
+输入：matrix = [[1,2,3],[4,5,6],[7,8,9]]
+输出：[1,2,3,6,9,8,7,4,5]
+示例 2：
+
+
+输入：matrix = [[1,2,3,4],[5,6,7,8],[9,10,11,12]]
+输出：[1,2,3,4,8,12,11,10,9,5,6,7]
+
+来源：力扣（LeetCode）
+链接：https://leetcode-cn.com/problems/spiral-matrix
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+int* spiralOrder(int** matrix, int matrixSize, int* matrixColSize, int* returnSize){
+    if(matrixSize == 0 || matrixColSize[0] == 0){
+        * returnSize = 0;
+        return NULL;
+    }
+
+    int row = matrixSize, column = matrixColSize[0];
+    int total = row * column;
+    int* order = malloc(sizeof(int) * total);
+    * returnSize = 0;
+
+    int left = 0, right = column - 1, top = 0, bottom = row - 1;
+    while(left <= right && top <= bottom){
+        for(int i=left; i<=right; i++){
+            order[(* returnSize)++] = matrix[top][i];
+        }
+        for(int j=top + 1; j<=bottom; j++){
+            order[(* returnSize)++] = matrix[j][right];
+        }
+        if(left < right && top < bottom){
+            for(int i=right - 1; i>left; i--){
+                order[(* returnSize)++] = matrix[bottom][i];
+            }
+            for(int j=bottom; j>top; j--){
+                order[(* returnSize)++] = matrix[j][left];
+            }
+        }
+        left++;
+        right--;
+        top++;
+        bottom--;
+    }
+    return order;
+}
+
+给你一个正整数 n ，生成一个包含 1 到 n2 所有元素，且元素按顺时针顺序螺旋排列的 n x n 正方形矩阵 matrix 。
+
+ 
+
+示例 1：
+
+
+输入：n = 3
+输出：[[1,2,3],[8,9,4],[7,6,5]]
+示例 2：
+
+输入：n = 1
+输出：[[1]]
+
+来源：力扣（LeetCode）
+链接：https://leetcode-cn.com/problems/spiral-matrix-ii
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+int** generateMatrix(int n, int* returnSize, int** returnColumnSizes){
+    int num = 1;
+    int** matrix = malloc(sizeof(int*) * n);
+    * returnSize = n;
+    * returnColumnSizes = malloc(sizeof(int) * n);
+    for(int i=0; i<n; i++){
+        matrix[i] = malloc(sizeof(int) * n);
+        //memset(matrix[i], 0, sizeof(int) * n);
+        (* returnColumnSizes)[i] = n;
+    }
+    
+    int left = 0, right = n - 1, top = 0, bottom = n - 1;
+    while(left <= right && top <= bottom){
+        for(int i=left; i<=right; i++){
+            matrix[top][i] = num;
+            num++;
+        }
+        for(int j=top + 1; j<=bottom; j++){
+            matrix[j][right] = num;
+            num++;
+        }
+        if(left < right && top < bottom){
+            for(int i=right - 1; i>left; i--){
+                matrix[bottom][i] = num;
+                num++;
+            }
+            for(int j=bottom; j>top; j--){
+                matrix[j][left] = num;
+                num++;
+            }
+        }
+        left++;
+        right--;
+        top++;
+        bottom--;
+    }
+    return matrix;
+}
+
+n 皇后问题 研究的是如何将 n 个皇后放置在 n×n 的棋盘上，并且使皇后彼此之间不能相互攻击。
+
+给你一个整数 n ，返回所有不同的 n 皇后问题 的解决方案。
+
+每一种解法包含一个不同的 n 皇后问题 的棋子放置方案，该方案中 'Q' 和 '.' 分别代表了皇后和空位。
+
+ 
+
+示例 1：
+
+
+输入：n = 4
+输出：[[".Q..","...Q","Q...","..Q."],["..Q.","Q...","...Q",".Q.."]]
+解释：如上图所示，4 皇后问题存在两个不同的解法。
+示例 2：
+
+输入：n = 1
+输出：[["Q"]]
+
+来源：力扣（LeetCode）
+链接：https://leetcode-cn.com/problems/n-queens
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+int solutionsSize;
+
+char** generateBoard(int* queens, int n) {
+    char** board = (char**)malloc(sizeof(char*) * n);
+    for (int i = 0; i < n; i++) {
+        board[i] = (char*)malloc(sizeof(char) * (n + 1));
+        for (int j = 0; j < n; j++) board[i][j] = '.';
+        board[i][queens[i]] = 'Q', board[i][n] = 0;
+    }
+    return board;
+}
+
+void backtrack(char*** solutions, int* queens, int n, int row, int* columns, int* diagonals1, int* diagonals2) {
+    if (row == n) {
+        char** board = generateBoard(queens, n);
+        solutions[solutionsSize++] = board;
+    } else {
+        for (int i = 0; i < n; i++) {
+            if (columns[i]) {
+                continue;
+            }
+            int diagonal1 = row - i + n - 1;
+            if (diagonals1[diagonal1]) {
+                continue;
+            }
+            int diagonal2 = row + i;
+            if (diagonals2[diagonal2]) {
+                continue;
+            }
+            queens[row] = i;
+            columns[i] = true;
+            diagonals1[diagonal1] = true;
+            diagonals2[diagonal2] = true;
+            backtrack(solutions, queens, n, row + 1, columns, diagonals1, diagonals2);
+            queens[row] = -1;
+            columns[i] = false;
+            diagonals1[diagonal1] = false;
+            diagonals2[diagonal2] = false;
+        }
+    }
+}
+
+char*** solveNQueens(int n, int* returnSize, int** returnColumnSizes) {
+    char*** solutions = malloc(sizeof(char**) * 501);
+    solutionsSize = 0;
+    int queens[n];
+    int columns[n];
+    int diagonals1[n + n];
+    int diagonals2[n + n];
+    memset(queens, -1, sizeof(queens));
+    memset(columns, 0, sizeof(columns));
+    memset(diagonals1, 0, sizeof(diagonals1));
+    memset(diagonals2, 0, sizeof(diagonals2));
+    backtrack(solutions, queens, n, 0, columns, diagonals1, diagonals2);
+    *returnSize = solutionsSize;
+    *returnColumnSizes = malloc(sizeof(int*) * solutionsSize);
+    for (int i = 0; i < solutionsSize; i++) {
+        (*returnColumnSizes)[i] = n;
+    }
+    return solutions;
+}
+
+给定一个非空整数数组，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。
+
+说明：
+
+你的算法应该具有线性时间复杂度。 你可以不使用额外空间来实现吗？
+
+示例 1:
+
+输入: [2,2,1]
+输出: 1
+示例 2:
+
+输入: [4,1,2,1,2]
+输出: 4
+
+来源：力扣（LeetCode）
+链接：https://leetcode-cn.com/problems/single-number
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+int singleNumber(int* nums, int numsSize){
+    for(int i=0; i<numsSize; i++){
+        int sum=0;
+        for(int j=0; j<numsSize; j++){
+            if(nums[i] == nums[j]){
+                sum++;
+            }
+        }
+        if(sum==1)
+            return nums[i];
+    }
+    return 0;
+}
+
+给你一个整数数组 nums ，除某个元素仅出现 一次 外，其余每个元素都恰出现 三次 。请你找出并返回那个只出现了一次的元素。
+
+ 
+
+示例 1：
+
+输入：nums = [2,2,3,2]
+输出：3
+示例 2：
+
+输入：nums = [0,1,0,1,0,1,99]
+输出：99
+
+来源：力扣（LeetCode）
+链接：https://leetcode-cn.com/problems/single-number-ii
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+int singleNumber(int *nums, int numsSize) {
+    int ans = 0;
+    for (int i = 0; i < 32; ++i) {
+        int total = 0;
+        for (int j = 0; j < numsSize; ++j) {
+            total += ((nums[j] >> i) & 1);
+        }
+        if (total % 3) {
+            ans |= (1u << i);
+        }
+    }
+    return ans;
+}
+
+在字符串 s 中找出第一个只出现一次的字符。如果没有，返回一个单空格。 s 只包含小写字母。
+
+示例:
+
+s = "abaccdeff"
+返回 "b"
+
+s = "" 
+返回 " "
+
+来源：力扣（LeetCode）
+链接：https://leetcode-cn.com/problems/di-yi-ge-zhi-chu-xian-yi-ci-de-zi-fu-lcof
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+char firstUniqChar(char* s){
+    int min=0;
+    int a[128]={0};
+    for(int i=0;s[i]!='\0';i++)
+        a[s[i]]+=1;
+    for(int i=0;s[i]!='\0';i++){
+        if(a[s[i]]==1)
+            return s[i];
+    }
+    return ' ';
+}

@@ -1,0 +1,43 @@
+#include <stdio.h>
+#include <string.h> 
+ 
+int main()
+{
+	int k, t, i, j, q;
+	long long ans;
+	long long m,n;
+	scanf("%d\n", &q);
+	long long a[q],b[q];
+	
+	while(scanf("%lld %lld",&m,&n) == 2)
+	{
+		memset(a,0,sizeof(a));
+		memset(b,0,sizeof(b));
+		ans = 0;
+		
+		k = m/q;
+		t = m%q;
+		for(i = 1;i <= t;i ++)
+		a[i] = k+1;
+		for(i = t+1;i <= q;i ++)
+		a[i] = k;
+		
+		k = n/q;
+		t = n%q;
+		for(i = 1;i <= t;i ++)
+		b[i] = k+1;
+		for(i = t+1;i <= q;i ++)
+		b[i] = k;
+		
+		for(i = 1;i <= q;i ++)
+		{
+			for(j = 1;j <= q;j ++)
+			{
+				if(i*j % q == 0) //对于同一个除数，两个数的乘积与它们余数的乘积同余。
+				ans += a[i]*b[j];
+			}
+		}
+		printf("%lld\n",ans);//给出正整数 n 和 m，统计满足a*b是q的倍数的正整数对 (a,b) 的数量 
+	}
+	return 0;
+}
